@@ -1,0 +1,19 @@
+[project]
+name = "drug-label-extracto"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=3.7.0",
+    "pydantic>=2.13.5",
+    "python-dotenv>=1.2.3",
+    "requests>=2.34.2",
+]
+
+[project.scripts]
+drug-label-extracto = "drug_label_extracto:main"
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"

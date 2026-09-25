@@ -1,0 +1,15 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# API
+.env
+.DS_Store # stop tracking macOS Finder files from now on
+.DS_Store
