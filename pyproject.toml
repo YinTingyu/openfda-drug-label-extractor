@@ -2,7 +2,7 @@
 [project]
 name = "drug-label-extractor"
 version = "0.1.0"
-description = "Add your description here"
+description = "Extract drug information from OpenFDA"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
