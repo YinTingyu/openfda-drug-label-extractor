@@ -34,8 +34,13 @@ def test_does_not_modify_input():  # 副作用：不改动传进来的列表
     assert items == [" acne ", "acne"]  # 原列表应保持不变
 
 # 子串匹配误杀，精确匹配漏杀
-def test_known_limitation_substring_match():  # 已知局限：子串匹配会误删有效条目
-    # 这个测试记录的是“当前行为”，不是“理想行为”；以后改成更精确的匹配时，要同步修改这个测试
-    assert clean_indications(["headache (use as directed)"]) == []
+# def test_known_limitation_substring_match():  # 已知局限：子串匹配会误删有效条目
+#     # 这个测试记录的是“当前行为”，不是“理想行为”；以后改成更精确的匹配时，要同步修改这个测试
+#     assert clean_indications(["headache (use as directed)"]) == []
 
-
+@pytest.mark.xfail(reason="substring match drops valid indications; "
+                          "needs residue-based matching",
+                   strict=True)
+def test_does_not_drop_indications_that_contain_boilerplate():
+    assert clean_indications(["Apply as directed for eczema"]) == \
+           ["Apply as directed for eczema"]
