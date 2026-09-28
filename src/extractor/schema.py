@@ -12,11 +12,16 @@ DosageForm = Literal[
 ]
 
 class SafetyInfo(BaseModel):  # 安全信息，分三级
-    contraindications: list[str] = Field(  # 第一级：绝对禁忌
-        default_factory=list,  # 默认是空列表（用 default_factory 避免多个实例共用同一个列表）
-        description="Absolute prohibitions: conditions under which the drug must never be used "  # 这段描述会发给模型，告诉它该放什么
-        "(from CONTRAINDICATIONS on Rx labels or DO_NOT_USE on OTC labels), e.g. known allergy "  # 相邻字符串会自动拼成一个
-        "to an ingredient. Empty list if the label has none.",
+    contraindications: list[str] = Field(
+        default_factory=list, description=(
+        "Absolute prohibitions concerning the patient's body or medical "
+        "condition — who must never use this product (e.g. known allergy "
+        "to an ingredient, a disease that rules it out). "
+        "Usually found in CONTRAINDICATIONS (Rx) or DO_NOT_USE (OTC), but "
+        "those sections also contain packaging, tamper-seal, storage and "
+        "handling text, which must be excluded. "
+        "Empty list if the label states none."
+        ),
     )
     cautions: list[str] = Field(  # 第二级：慎用，需要咨询医生
         default_factory=list,  # 默认空列表

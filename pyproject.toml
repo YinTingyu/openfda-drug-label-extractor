@@ -1,3 +1,4 @@
+# pyproject.toml
 [project]
 name = "drug-label-extractor"
 version = "0.1.0"
@@ -26,4 +27,8 @@ dev = [
     "pytest>=9.1.1",
 ]
 
+
+[tool.pytest.ini_options]
+markers = ["llm: tests that call a real LLM API (slow, costs money)"]
+addopts = "-m 'not llm'"        # 默认不跑
 
