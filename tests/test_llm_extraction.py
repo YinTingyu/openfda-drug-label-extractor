@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from extractor.extract import extract
+from extractor.extract import extract_drug_label_info as extract
 
 SAMPLES = Path(__file__).parent.parent / "data" / "samples.json"
 
