@@ -12,8 +12,6 @@ dependencies = [
     "requests>=2.34.2",
 ]
 
-[project.scripts]
-drug-label-extractor = "drug_label_extractor:main"
 
 [tool.uv.build-backend]
 module-name = "extractor"
