@@ -47,6 +47,7 @@ class DrugLabel(BaseModel):  # 模型最终要返回的完整结构
         ),
     )
     safety: SafetyInfo = Field(  # 嵌套上面定义的 SafetyInfo
+        default_factory=SafetyInfo,  # 默认空的 SafetyInfo
         description="Safety statements about the patient. Never include packaging, tamper "  # 明确排除包装、封口、储存等非人体相关信息
         "seals, storage, 'external use only', or 'keep out of reach of children'.",
     )
