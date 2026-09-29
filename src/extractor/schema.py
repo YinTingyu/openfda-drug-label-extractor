@@ -17,6 +17,8 @@ class SafetyInfo(BaseModel):  # 安全信息，分三级
         "Absolute prohibitions concerning the patient's body or medical "
         "condition — who must never use this product (e.g. known allergy "
         "to an ingredient, a disease that rules it out). "
+        "Specific uses ruled out within its intended route "
+        "(e.g. 'do not use in the eyes', 'not for injection'). "
         "Usually found in CONTRAINDICATIONS (Rx) or DO_NOT_USE (OTC), but "
         "those sections also contain packaging, tamper-seal, storage and "
         "handling text, which must be excluded. "
@@ -27,23 +29,32 @@ class SafetyInfo(BaseModel):  # 安全信息，分三级
         default_factory=list,  # 默认空列表
         description=(
             "Conditions under which the user should consult a professional "
-            "before use (e.g. pregnancy, nursing, an existing condition). "
-            "Not absolute bans, and not descriptions of what may go wrong. "
+            "before use — pregnancy, nursing, an existing condition or wound "
+            "type. Usually from ASK_DOCTOR. Not absolute bans, not outcomes, "
+            "and not warnings that apply to the whole product class. "
             "Each item must be a complete, independently understandable "
-            "condition — 'If pregnant or nursing, seek advice', not "
-            "'pregnant'. Empty list if none."
+            "condition. Empty list if none."
+        ),
+    )
+
+    general_warnings: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Standard warnings that apply to the product class rather than to "
+            "any particular user or condition — 'for external use only', "
+            "'keep out of reach of children'. Empty list if none."
         ),
     )
 
     adverse_reactions: list[str] = Field(
         default_factory=list,  # 默认空列表
         description=(
-            "Possible harmful effects of using the product (e.g. anaphylaxis, "
-            "Stevens-Johnson syndrome). These describe outcomes, not the "
-            "conditions under which the product should or should not be used. "
+            "Possible harmful effects of using the product (e.g. anaphylaxis, Stevens-Johnson syndrome, ocular burning)."
+            "These describe outcomes, not conditions of use. "
             "Empty list if none."
         ),
     )
+
     stop_use_conditions: list[str] = Field(  # 第三级：出现某情况时停药
         default_factory=list,  # 默认空列表
         description=(
@@ -51,6 +62,7 @@ class SafetyInfo(BaseModel):  # 安全信息，分三级
             "Each item must be independently understandable. Empty list if none."
         ),
     )
+
 
 class DrugLabel(BaseModel):  # 模型最终要返回的完整结构
     indications: list[str] = Field(  # 适应症
@@ -66,8 +78,12 @@ class DrugLabel(BaseModel):  # 模型最终要返回的完整结构
     )
     safety: SafetyInfo = Field(  # 嵌套上面定义的 SafetyInfo
         default_factory=SafetyInfo,  # 默认空的 SafetyInfo
-        description="Safety statements about the patient. Never include packaging, tamper "  # 明确排除包装、封口、储存等非人体相关信息
-        "seals, storage, 'external use only', or 'keep out of reach of children'.",
+        description=(
+            "Safety statements from the label. Across all safety fields, exclude "
+            "text about the container or storage — tamper seals, closing the cap, "
+            "storage temperature — wherever it appears, including inside "
+            "DO_NOT_USE or WARNINGS sections."
+        ),
     )
     dosage_form: Optional[DosageForm] = Field(  # 剂型：只能是 DosageForm 里的值，或 None
         default=None,  # 标签没写时为 None
