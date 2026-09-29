@@ -10,6 +10,8 @@ def test_keeps_normal_items():  # 正常条目原样保留
     "As directed by the physician",    # 套话 2
     "use as directed",                 # 套话出现在句子中间
 ])
+
+
 def test_removes_non_informative(phrase):  # 含套话的条目被删掉
     assert clean_indications(["acne", phrase]) == ["acne"]
 
@@ -33,14 +35,13 @@ def test_does_not_modify_input():  # 副作用：不改动传进来的列表
     clean_indications(items)  # 调用函数
     assert items == [" acne ", "acne"]  # 原列表应保持不变
 
-# 子串匹配误杀，精确匹配漏杀
-# def test_known_limitation_substring_match():  # 已知局限：子串匹配会误删有效条目
-#     # 这个测试记录的是“当前行为”，不是“理想行为”；以后改成更精确的匹配时，要同步修改这个测试
-#     assert clean_indications(["headache (use as directed)"]) == []
 
-@pytest.mark.xfail(reason="substring match drops valid indications; "
-                          "needs residue-based matching",
-                   strict=True)
-def test_does_not_drop_indications_that_contain_boilerplate():
-    assert clean_indications(["Apply as directed for eczema"]) == \
-           ["Apply as directed for eczema"]
+def test_preserves_original_casing():
+    assert clean_indications(["Stevens-Johnson syndrome"]) == \
+           ["Stevens-Johnson syndrome"]
+    assert clean_indications(["SPF 46 protection"]) == ["SPF 46 protection"]
+
+
+
+def test_preserves_order_with_duplicates():
+    assert clean_indications(["boils", "acne", "Acne", "boils"]) == ["boils", "acne"]

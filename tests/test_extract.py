@@ -9,21 +9,6 @@ def make_fake_response(parsed):
     fake.output_parsed = parsed
     return fake
 
-# @patch("extractor.extract.client")
-# def test_extract_filters_non_informative_indications(mock_client):
-#     mock_client.responses.parse.return_value = make_fake_response(
-#         DrugLabel(indications=["acne", "as directed by the physician"], safety=SafetyInfo())
-#     )
-#     result = extract("some label text")
-#     assert result.indications == ["acne"]
-
-# @patch("extractor.extract.client")
-# def test_extract_uses_temperature_zero(mock_client):
-#     mock_client.responses.parse.return_value = make_fake_response(DrugLabel(safety=SafetyInfo()))
-#     extract("some label text")
-#     kwargs = mock_client.responses.parse.call_args.kwargs
-#     assert kwargs["temperature"] == 0
-
 def test_extract_filters_non_informative_indications():
     fake = MagicMock()
     fake.responses.parse.return_value = make_fake_response(
