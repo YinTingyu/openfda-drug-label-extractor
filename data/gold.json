@@ -1,0 +1,172 @@
+{
+  "created_at": "2026-09-29",
+  "labelled_by": "mannual",
+  "source": "data/samples.json",
+  "guidelines": {
+    "scope": "Gold is labelled ONLY from each sample's input_text (exactly what the model saw). Real information that exists in the raw label but was removed by the FIELDS whitelist goes in whitelist_gaps, never in gold.",
+    "indications": "Specific conditions or symptoms, lowercase short noun phrases. Exclude boilerplate ('condition listed above', 'as directed by physician') and cosmetic/marketing claims ('leaves the skin flawless').",
+    "contraindications": "Absolute prohibitions — whom the product must not be used on, and where or how it must not be applied. Usually in CONTRAINDICATIONS (Rx) / DO_NOT_USE. Exclude packaging, tamper seals, storage.",
+    "cautions": "Situations needing care or a doctor's advice before use (ASK_DOCTOR, WARNINGS, pregnancy/nursing advice).",
+    "general_warnings": "Standard warnings that apply to the product class rather than to any particular user or condition — 'for external use only', 'keep out of reach of children'. Exclude packaging, tamper seals, storage.",
+    "adverse_reactions": "Side effects stated in input_text.",
+    "stop_use_conditions": "Events during use that mean the user should stop ('stop use if', 'discontinue if').",
+    "dosage_form": "One value from the DosageForm Literal, judged from administration text in input_text (schema rule: 'dissolve under the tongue' => pellet)."
+  },
+  "samples": [
+    {
+      "id": "ca7bbcc8-2354-375c-e053-2995a90a72a0",
+      "drug_name": "SILICEA",
+      "gold": {
+        "indications": [
+          "acne",
+          "boils"
+        ],
+        "safety": {
+          "contraindications": [],
+          "cautions": [
+            "If pregnant or nursing, seek professional advice before use"
+          ],
+          "general_warnings": [
+            "Keep this and all medication out of reach of children"
+          ],
+          "adverse_reactions": [],
+          "stop_use_conditions": [
+            "If symptoms do not improve in 4 days, or worsen"
+          ]
+        },
+        "dosage_form": "pellet"
+      },
+      "rationale": {
+        "contraindications": "DO_NOT_USE contains only packaging text (capseal), which is not a medical contraindication.",
+        "indications": "INDICATIONS_AND_USAGE is boilerplate; conditions come from PURPOSE ('Temporary Relief - Acne, Boils')."
+      },
+      "whitelist_gaps": []
+    },
+    {
+      "id": "f229e866-5775-4e42-a316-8480dd92fec6",
+      "drug_name": "Protection Naturelle SPF 46 PA+++",
+      "gold": {
+        "indications": [
+          "broad-spectrum uva/uvb sun protection"
+        ],
+        "safety": {
+          "contraindications": [],
+          "cautions": [],
+          "general_warnings": [
+            "For external use only"
+          ],
+          "adverse_reactions": [],
+          "stop_use_conditions": []
+        },
+        "dosage_form": "powder"
+      },
+      "rationale": {
+        "safety": "No contraindications or stop_use_conditions are present.",
+        "indications": "'Leaves the skin flawless' is a cosmetic claim, excluded."
+      },
+      "whitelist_gaps": [
+        "WHEN_USING ('keep out of eyes. Rinse with water to remove.') is not in FIELDS - a real caution is lost.",
+        "openfda is empty, so drug_name in samples.json is 'Unknown Drug Name'; the name here comes from SPL_PRODUCT_DATA_ELEMENTS / package panel."
+      ]
+    },
+    {
+      "id": "b8f5797b-73e1-4201-b824-2cdd50c90497",
+      "drug_name": "POVIDONE-IODINE",
+      "gold": {
+        "indications": [
+          "minor cuts",
+          "scrapes",
+          "burns"
+        ],
+        "safety": {
+          "contraindications": [
+            "Allergy to povidone-iodine or any other ingredient",
+            "Use in the eyes",
+            "Use over large areas of the body"
+          ],
+          "cautions": [
+            "Deep or puncture wounds",
+            "Serious burns",
+            "Animal bites"
+          ],
+          "general_warnings": ["For external use only", "Keep out of reach of children"],
+          "adverse_reactions": [],
+          "stop_use_conditions": [
+            "Condition persists or gets worse",
+            "use for more than 1 week"
+          ]
+        },
+        "dosage_form": "spray"
+      },
+      "rationale": {
+        "indications": "First aid to help prevent infection in minor cuts scrapes burns",
+        "cautions": "From ASK_DOCTOR.",
+        "dosage_form": "DOSAGE_AND_ADMINISTRATION: 'spray a small amount of the product on the area'."
+      },
+      "whitelist_gaps": []
+    },
+    {
+      "id": "01f4b0f6-94df-fd91-e063-6394a90a7997",
+      "drug_name": "Mezereum",
+      "gold": {
+        "indications": [
+          "itching"
+        ],
+        "safety": {
+          "contraindications": [],
+          "cautions": [],
+          "general_warnings": [],
+          "adverse_reactions": [],
+          "stop_use_conditions": [
+            "If symptoms persist or worsen",
+            "If pregnant or nursing"
+          ]
+        },
+        "dosage_form": "pellet"
+      },
+      "rationale": {
+        "dosage_form": "input_text only says 'Dissolve 3 to 5 under the tongue'; the schema rule maps this to pellet."
+      },
+      "whitelist_gaps": [
+        "PACKAGE_LABEL_PRINCIPAL_DISPLAY_PANEL mentions 'pellet-form remedies', which confirms the form; not in FIELDS, so the model must infer it.",
+        "openfda is empty; drug_name comes from SPL_PRODUCT_DATA_ELEMENTS."
+      ]
+    },
+    {
+      "id": "f8ce57b8-ebf7-4dc1-96ec-c8fbc41c17ff",
+      "drug_name": "Ofloxacin",
+      "gold": {
+        "indications": [
+          "bacterial conjunctivitis",
+          "bacterial corneal ulcer"
+        ],
+        "safety": {
+          "contraindications": [
+            "History of hypersensitivity to ofloxacin, other quinolones, or any component of the product",
+            "Not for subconjunctival injection", 
+            "not into the anterior chamber of the eye"
+          ],
+          "cautions": [],
+          "general_warnings": [],
+          "adverse_reactions": ["ocular burning/discomfort", "stinging", "redness", "itching", "chemical conjunctivitis/keratitis", "edema", "foreign body sensation", "photophobia", "blurred vision", "tearing", "dryness", "eye pain", 
+          "dizziness", "nausea", "anaphylaxis", "Stevens-Johnson syndrome", "fatal hypersensitivity reactions"],
+          "stop_use_conditions": [
+            "If an allergic reaction to ofloxacin occurs"
+          ]
+        },
+        "dosage_form": "drops"
+      },
+      "rationale": {
+        "indications": "INDICATIONS_AND_USAGE ends with 'conditions listed below:' (list is missing from input_text); both conditions are named in DOSAGE_AND_ADMINISTRATION.",
+        "dosage_form": "input_text: 'Ofloxacin ophthalmic solution', administered as drops."
+      },
+      "whitelist_gaps": [
+        "SPL_UNCLASSIFIED_SECTION holds the list INDICATIONS_AND_USAGE refers to (conditions + susceptible organisms). Conditions survive via DOSAGE_AND_ADMINISTRATION; the organism list is lost.",
+        "PRECAUTIONS / INFORMATION_FOR_PATIENTS not in FIELDS: superinfection with prolonged use; avoid contaminating the applicator tip.",
+        "PREGNANCY / NURSING_MOTHERS not in FIELDS: use in pregnancy only if benefit justifies risk; decide whether to stop nursing or the drug.",
+        "This is an Rx label in the old format: safety content is spread over sections the OTC-oriented whitelist does not cover.",
+        "openfda is empty; drug_name comes from SPL_PRODUCT_DATA_ELEMENTS."
+      ]
+    }
+  ]
+}
