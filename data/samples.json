@@ -1,8 +1,6 @@
 {
-  "created_at": "2026-09-25T07:10:39.598174+00:00",
-  "model": "gpt-4o-mini",
-  "temperature": 0,
-  "system_prompt": "You extract structured information from FDA drug labels. Only use information present in the text.",
+  "created_at": "2026-09-29",
+  "built_from": "raw_labels_2026-09-28.json",
   "fields": [
     "indications_and_usage",
     "purpose",
@@ -15,92 +13,6 @@
     "stop_use",
     "warnings_and_cautions"
   ],
-  "schema": {
-    "$defs": {
-      "SafetyInfo": {
-        "properties": {
-          "contraindications": {
-            "description": "Absolute prohibitions: conditions under which the drug must never be used (from CONTRAINDICATIONS on Rx labels or DO_NOT_USE on OTC labels), e.g. known allergy to an ingredient. Empty list if the label has none.",
-            "items": {
-              "type": "string"
-            },
-            "title": "Contraindications",
-            "type": "array"
-          },
-          "cautions": {
-            "description": "Conditions requiring care or a doctor's advice before use (ASK_DOCTOR, WARNINGS), e.g. pregnancy or breast-feeding, liver disease.",
-            "items": {
-              "type": "string"
-            },
-            "title": "Cautions",
-            "type": "array"
-          },
-          "stop_use_conditions": {
-            "description": "Situations in which the user should stop taking the drug (STOP_USE), e.g. symptoms persist more than N days.",
-            "items": {
-              "type": "string"
-            },
-            "title": "Stop Use Conditions",
-            "type": "array"
-          }
-        },
-        "title": "SafetyInfo",
-        "type": "object"
-      }
-    },
-    "properties": {
-      "indications": {
-        "description": "Specific medical conditions or symptoms this product treats or relieves. Look in INDICATIONS_AND_USAGE and PURPOSE sections. Exclude non-informative phrases such as 'condition listed above' or 'as directed by the physician'. Each item must be an independently meaningful condition (e.g. 'acne', not 'temporary relief').",
-        "items": {
-          "type": "string"
-        },
-        "title": "Indications",
-        "type": "array"
-      },
-      "safety": {
-        "$ref": "#/$defs/SafetyInfo",
-        "description": "Safety statements about the patient. Never include packaging, tamper seals, storage, 'external use only', or 'keep out of reach of children'."
-      },
-      "dosage_form": {
-        "anyOf": [
-          {
-            "enum": [
-              "tablet",
-              "capsule",
-              "pellet",
-              "powder",
-              "liquid",
-              "solution",
-              "suspension",
-              "syrup",
-              "cream",
-              "ointment",
-              "gel",
-              "lotion",
-              "spray",
-              "drops",
-              "injection",
-              "patch",
-              "suppository",
-              "other"
-            ],
-            "type": "string"
-          },
-          {
-            "type": "null"
-          }
-        ],
-        "default": null,
-        "description": "Physical form of the product as administered, taken from dosage or administration text (e.g. 'dissolve under the tongue' pellets => pellet). Not the plant part or raw ingredient. Null if not stated.",
-        "title": "Dosage Form"
-      }
-    },
-    "required": [
-      "safety"
-    ],
-    "title": "DrugLabel",
-    "type": "object"
-  },
   "samples": [
     {
       "index": 0,
@@ -108,45 +20,15 @@
       "set_id": "0000025c-6dbf-4af7-a741-5cbacaed519a",
       "drug_name": "SILICEA",
       "input_text": "INDICATIONS_AND_USAGE:\nINDICATIONS Condition listed above or as directed by the physician\n\nPURPOSE:\nUSES USES: Temporary Relief - Acne, Boils* * Claims based on traditional homeopathic practice, not accepted medical evidence. Not FDA evaluated.\n\nDO_NOT_USE:\nDo not use if capseal is broken or missing. Close the cap tightly after use.\n\nWARNINGS:\nWARNINGS This product is to be used for self-limiting conditions If symptoms do not improve in 4 days, or worsen, discontinue use and seek assistance of health professional. As with any drug, if you are pregnant, or nursing a baby, seek professional advice before taking this product. Keep this and all medication out of reach of children Do not use if capseal is broken or missing. Close the cap tightly after use.\n\nDOSAGE_AND_ADMINISTRATION:\nDOSAGE Adults- Take 4 or 6 Pellets by mouth, three times daily or as suggested by physician. Children 2 years and older- take 1/2 the adult dose.\n\nSTOP_USE:\nIf symptoms do not improve in 4 days, or worsen, discontinue use and seek assistance of health professional.",
-      "input_chars": 1055,
-      "output": {
-        "indications": [
-          "Acne",
-          "Boils"
-        ],
-        "safety": {
-          "contraindications": [
-            "Do not use if capseal is broken or missing."
-          ],
-          "cautions": [
-            "If pregnant or nursing, seek professional advice before use."
-          ],
-          "stop_use_conditions": [
-            "If symptoms do not improve in 4 days, or worsen."
-          ]
-        },
-        "dosage_form": "pellet"
-      }
+      "input_chars": 1055
     },
     {
       "index": 1,
       "id": "f229e866-5775-4e42-a316-8480dd92fec6",
       "set_id": "0000076a-fc39-4208-ace8-6c2cb367904f",
-      "drug_name": "Unknown Drug Name",
+      "drug_name": null,
       "input_text": "INDICATIONS_AND_USAGE:\nUses Multi-purpose mineral powder provides broad-spectrum SPF 46 PA+++ protection. Leaves the skin flawless and protected.\n\nPURPOSE:\nPurpose Sunscreen\n\nWARNINGS:\nWarnings For external use only.\n\nDOSAGE_AND_ADMINISTRATION:\nDirections Protection Naturelle SPF 46 PA+++ Powder can be used on clean skin or over makeup. Shake lightly to activate the flow of powder. Sweep the brush all over the face to evenly distribute powder for immediate UVA/UVB protection.",
-      "input_chars": 480,
-      "output": {
-        "indications": [
-          "broad-spectrum SPF 46 protection",
-          "flawless skin"
-        ],
-        "safety": {
-          "contraindications": [],
-          "cautions": [],
-          "stop_use_conditions": []
-        },
-        "dosage_form": "powder"
-      }
+      "input_chars": 480
     },
     {
       "index": 2,
@@ -154,87 +36,23 @@
       "set_id": "00002127-02bc-4c66-b0c3-ca29d8224afc",
       "drug_name": "POVIDONE-IODINE",
       "input_text": "INDICATIONS_AND_USAGE:\nUses First aid to help prevent infection in minor cuts scrapes burns\n\nPURPOSE:\nPurpose First aid Antiseptic\n\nDO_NOT_USE:\nDo not use in the eyes over large areas of the body If you are allergic to povidone-iodine or any other ingredients in this preparation\n\nWARNINGS:\nWarnings For external use only\n\nASK_DOCTOR:\nAsk a doctor before use if you have deep or puncture wounds serious burns animal bites\n\nDOSAGE_AND_ADMINISTRATION:\nDirections clean the affected area spray a small amount of the product on the area 1 to 3 times daily may be covered with a sterile bandage if bandaged, let dry first\n\nSTOP_USE:\nStop use and ask a doctor if the condition persists or gets worse you need to use this product for more than 1 week",
-      "input_chars": 743,
-      "output": {
-        "indications": [
-          "first aid to help prevent infection in minor cuts",
-          "scrapes",
-          "burns"
-        ],
-        "safety": {
-          "contraindications": [
-            "do not use in the eyes",
-            "over large areas of the body",
-            "if you are allergic to povidone-iodine or any other ingredients in this preparation"
-          ],
-          "cautions": [
-            "ask a doctor before use if you have deep or puncture wounds",
-            "serious burns",
-            "animal bites"
-          ],
-          "stop_use_conditions": [
-            "if the condition persists or gets worse",
-            "you need to use this product for more than 1 week"
-          ]
-        },
-        "dosage_form": "liquid"
-      }
+      "input_chars": 743
     },
     {
       "index": 3,
       "id": "01f4b0f6-94df-fd91-e063-6394a90a7997",
       "set_id": "00006ebc-ec2b-406c-96b7-a3cc422e933f",
-      "drug_name": "Unknown Drug Name",
+      "drug_name": null,
       "input_text": "INDICATIONS_AND_USAGE:\nINDICATIONS Indications: MEZEREUM Itching\n\nPURPOSE:\nUSES To relieve the symptoms of itching.\n\nWARNINGS:\nSTOP USE AND ASK DOCTOR If symptoms persist/worsen or if pregnant/nursing, stop use and consult your practitioner.\n\nDOSAGE_AND_ADMINISTRATION:\nDIRECTIONS Adults: Dissolve 3 to 5 under the tongue three times a day or as directed by Lic. Practitioner. Take at greater intervals as condition subsides. Children: Dissolve 3 to 5 under the tongue three times a day or as directed by Lic. Practitioner. Take at greater intervals as condition subsides.",
-      "input_chars": 572,
-      "output": {
-        "indications": [
-          "itching"
-        ],
-        "safety": {
-          "contraindications": [],
-          "cautions": [
-            "pregnant",
-            "nursing"
-          ],
-          "stop_use_conditions": [
-            "If symptoms persist",
-            "If symptoms worsen"
-          ]
-        },
-        "dosage_form": "pellet"
-      }
+      "input_chars": 572
     },
     {
       "index": 4,
       "id": "f8ce57b8-ebf7-4dc1-96ec-c8fbc41c17ff",
       "set_id": "00011703-bc55-4c0c-858c-149dc674bc3c",
-      "drug_name": "Unknown Drug Name",
+      "drug_name": null,
       "input_text": "INDICATIONS_AND_USAGE:\nINDICATIONS AND USAGE Ofloxacin ophthalmic solution is indicated for the treatment of infections caused by susceptible strains of the following bacteria in the conditions listed below:\n\nCONTRAINDICATIONS:\nCONTRAINDICATIONS Ofloxacin ophthalmic solution is contraindicated in patients with a history of hypersensitivity to ofloxacin, to other quinolones, or to any of the components in this medication (see WARNINGS ).\n\nWARNINGS:\nWARNINGS NOT FOR INJECTION. Ofloxacin ophthalmic solution should not be injected subconjunctivally, nor should it be introduced directly into the anterior chamber of the eye. There are rare reports of anaphylactic reaction/shock and fatal hypersensitivity reactions in patients receiving systemic quinolones, some following the first dose, including ofloxacin. Some reactions were accompanied by cardiovascular collapse, loss of consciousness, angioedema (including laryngeal, pharyngeal or facial edema), airway obstruction, dyspnea, urticaria, and itching. A rare occurrence of Stevens-Johnson syndrome, which progressed to toxic epidermal necrolysis, has been reported in a patient who was receiving topical ophthalmic ofloxacin. If an allergic reaction to ofloxacin occurs, discontinue the drug. Serious acute hypersensitivity reactions may require immediate emergency treatment. Oxygen and airway management, including intubation should be administered as clinically indicated.\n\nDOSAGE_AND_ADMINISTRATION:\nDOSAGE AND ADMINISTRATION The recommended dosage regimen for the treatment of bacterial conjunctivitis is: Days 1 and 2 Instill one to two drops every two to four hours in the affected eye(s). Days 3 through 7 Instill one to two drops four times daily. The recommended dosage regimen for the treatment of bacterial corneal ulcer is: Days 1 and 2 Instill one to two drops into the affected eye every 30 minutes, while awake. Awaken at approximately four and six hours after retiring and instill one to two drops. Days 3 through 7 to 9 Instill one to two drops hourly, while awake. Days 7 to 9 through treatment completion Instill one to two drops, four times daily.",
-      "input_chars": 2127,
-      "output": {
-        "indications": [
-          "treatment of infections caused by susceptible strains of bacteria in bacterial conjunctivitis",
-          "treatment of bacterial corneal ulcer"
-        ],
-        "safety": {
-          "contraindications": [
-            "history of hypersensitivity to ofloxacin",
-            "history of hypersensitivity to other quinolones",
-            "history of hypersensitivity to any components in this medication"
-          ],
-          "cautions": [
-            "not for injection",
-            "risk of anaphylactic reaction/shock",
-            "risk of fatal hypersensitivity reactions",
-            "risk of Stevens-Johnson syndrome"
-          ],
-          "stop_use_conditions": [
-            "if an allergic reaction to ofloxacin occurs"
-          ]
-        },
-        "dosage_form": "solution"
-      }
+      "input_chars": 2127
     }
   ]
 }
