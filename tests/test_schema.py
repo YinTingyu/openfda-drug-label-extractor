@@ -10,6 +10,7 @@ def test_all_fields_optional_so_model_can_say_nothing():
     assert label.safety.cautions == []
     assert label.safety.stop_use_conditions == []
     assert label.dosage_form is None
+    assert label.safety.adverse_reactions == []
 
 def test_dosage_form_rejects_value_outside_enum():
     with pytest.raises(ValidationError):

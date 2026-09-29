@@ -25,13 +25,31 @@ class SafetyInfo(BaseModel):  # 安全信息，分三级
     )
     cautions: list[str] = Field(  # 第二级：慎用，需要咨询医生
         default_factory=list,  # 默认空列表
-        description="Conditions requiring care or a doctor's advice before use "  # 给模型的说明
-        "(ASK_DOCTOR, WARNINGS), e.g. pregnancy or breast-feeding, liver disease.",
+        description=(
+            "Conditions under which the user should consult a professional "
+            "before use (e.g. pregnancy, nursing, an existing condition). "
+            "Not absolute bans, and not descriptions of what may go wrong. "
+            "Each item must be a complete, independently understandable "
+            "condition — 'If pregnant or nursing, seek advice', not "
+            "'pregnant'. Empty list if none."
+        ),
+    )
+
+    adverse_reactions: list[str] = Field(
+        default_factory=list,  # 默认空列表
+        description=(
+            "Possible harmful effects of using the product (e.g. anaphylaxis, "
+            "Stevens-Johnson syndrome). These describe outcomes, not the "
+            "conditions under which the product should or should not be used. "
+            "Empty list if none."
+        ),
     )
     stop_use_conditions: list[str] = Field(  # 第三级：出现某情况时停药
         default_factory=list,  # 默认空列表
-        description="Situations in which the user should stop taking the drug "  # 给模型的说明
-        "(STOP_USE), e.g. symptoms persist more than N days.",
+        description=(
+            "Situations in which the user should discontinue use. "
+            "Each item must be independently understandable. Empty list if none."
+        ),
     )
 
 class DrugLabel(BaseModel):  # 模型最终要返回的完整结构
