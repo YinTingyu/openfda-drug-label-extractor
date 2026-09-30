@@ -14,8 +14,7 @@ DosageForm = Literal[
 class SafetyInfo(BaseModel):  # 安全信息，分三级
     contraindications: list[str] = Field(
         default_factory=list, description=(
-        "Absolute prohibitions concerning the patient's body or medical "
-        "condition — who must never use this product (e.g. known allergy "
+        "Absolute prohibitions — whom the product must not be used on, and where or how it must not be applied. (e.g. known allergy "
         "to an ingredient, a disease that rules it out). "
         "Specific uses ruled out within its intended route "
         "(e.g. 'do not use in the eyes', 'not for injection'). "
@@ -87,9 +86,20 @@ class DrugLabel(BaseModel):  # 模型最终要返回的完整结构
     )
     dosage_form: Optional[DosageForm] = Field(  # 剂型：只能是 DosageForm 里的值，或 None
         default=None,  # 标签没写时为 None
-        description="Physical form of the product as administered, taken from dosage or "  # 让模型从用法里判断剂型
+        description=("Physical form of the product as administered, taken from dosage or "  # 让模型从用法里判断剂型
         "administration text (e.g. 'dissolve under the tongue' pellets => pellet). "
-        "Not the plant part or raw ingredient. Null if not stated.",  # 防止把原料部位（如 BARK 树皮）当成剂型
+        "Not the plant part or raw ingredient. "
+        "Physical dosage form. Apply the first rule that matches: "
+        "1. Ophthalmic products administered as drops ('instill one to two "
+        "drops') => 'drops', even when the product is also called a solution."
+        "2. A form word stated for the product itself ('4 or 6 Pellets', "
+        "'Powder', 'ophthalmic solution') => that word."
+        "3. No form word stated => infer from how it is administered: "
+        "'dissolve under the tongue' => 'pellet'; 'spray a small amount "
+        "on the area' => 'spray'."
+        "4. Otherwise null. Never infer from ingredients, packaging or "
+        "product name."
+        "Null if not stated.")
     )
 
 

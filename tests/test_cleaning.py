@@ -1,6 +1,6 @@
 # tests/test_cleaning.py
 import pytest  # 测试框架（用 parametrize 时必须导入）
-from extractor.cleaning import clean_indications  # 被测函数
+from extractor.cleaning import clean_indications, resolve_dosage_form  # 被测函数
 
 def test_keeps_normal_items():  # 正常条目原样保留
     assert clean_indications(["acne", "boils"]) == ["acne", "boils"]
@@ -45,3 +45,16 @@ def test_preserves_original_casing():
 
 def test_preserves_order_with_duplicates():
     assert clean_indications(["boils", "acne", "Acne", "boils"]) == ["boils", "acne"]
+
+
+
+def test_ophthalmic_solution_becomes_drops():
+    text = "Instill one to two drops in the affected eye four times daily."
+    assert resolve_dosage_form(text, "solution") == "drops"
+
+def test_non_ophthalmic_solution_unchanged():
+    assert resolve_dosage_form("Take 5 mL by mouth.", "solution") == "solution"
+
+def test_other_forms_untouched():
+    text = "Instill one to two drops in the affected eye."
+    assert resolve_dosage_form(text, "pellet") == "pellet"

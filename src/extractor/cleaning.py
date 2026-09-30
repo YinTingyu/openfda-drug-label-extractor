@@ -40,3 +40,20 @@ def clean_indications(items: list[str]) -> list[str]:
         seen.add(key)  # 记录下来
         cleaned.append(item.strip())  # 保留原始大小写，只去掉首尾空格
     return cleaned  # 返回清洗后的列表
+
+
+
+
+# "instill one to two drops", "instill 1-2 drops in the affected eye"
+_INSTILL_DROPS = re.compile(r"\binstill\b[^.]{0,40}\bdrops?\b", re.I)
+
+
+def resolve_dosage_form(label_text: str, predicted: str | None) -> str | None:
+    """Apply decided rules the model does not reliably follow.
+
+    Ophthalmic products stated as a 'solution' but administered by
+    instilling drops are recorded as 'drops'.
+    """
+    if predicted == "solution" and _INSTILL_DROPS.search(label_text):
+        return "drops"
+    return predicted

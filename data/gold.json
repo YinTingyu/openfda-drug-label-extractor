@@ -27,7 +27,7 @@
             "If pregnant or nursing, seek professional advice before use"
           ],
           "general_warnings": [
-            "Keep this and all medication out of reach of children"
+            "Keep out of children"
           ],
           "adverse_reactions": [],
           "stop_use_conditions": [
@@ -53,7 +53,7 @@
           "contraindications": [],
           "cautions": [],
           "general_warnings": [
-            "For external use only"
+            "For external use only", "Keep out of reach of children"
           ],
           "adverse_reactions": [],
           "stop_use_conditions": []
@@ -115,7 +115,7 @@
         "safety": {
           "contraindications": [],
           "cautions": [],
-          "general_warnings": [],
+          "general_warnings": ["Keep out of reach of children"],
           "adverse_reactions": [],
           "stop_use_conditions": [
             "If symptoms persist or worsen",
@@ -147,7 +147,7 @@
             "not into the anterior chamber of the eye"
           ],
           "cautions": [],
-          "general_warnings": [],
+          "general_warnings": ["Keep out of reach of children"],
           "adverse_reactions": ["ocular burning/discomfort", "stinging", "redness", "itching", "chemical conjunctivitis/keratitis", "edema", "foreign body sensation", "photophobia", "blurred vision", "tearing", "dryness", "eye pain", 
           "dizziness", "nausea", "anaphylaxis", "Stevens-Johnson syndrome", "fatal hypersensitivity reactions"],
           "stop_use_conditions": [

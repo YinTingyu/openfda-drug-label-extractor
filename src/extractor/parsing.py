@@ -15,6 +15,8 @@ FIELDS = [
     # 额外两个字段（不需要可以删掉）：
     "stop_use",                    # 停药条件，对应 SafetyInfo.stop_use_conditions
     "warnings_and_cautions",       # 新版处方药标签用这个名字代替 "warnings"
+    "adverse_reactions",
+    "keep_out_of_reach_of_children",
 ]
 
 _TAG = re.compile(r"<[^>]+>")  # 匹配任意 HTML 标签，例如 <td>、</table>

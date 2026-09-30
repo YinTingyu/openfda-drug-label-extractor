@@ -5,6 +5,9 @@ from extractor.cleaning import clean_indications    # 过滤函数在 cleaning.p
 from functools import lru_cache # 缓存函数结果，避免重复调用模型
 import logging
 
+# 系统提示词：告诉模型它的角色，以及只能使用原文里的信息（减少编造）
+SYSTEM_PROMPT = "You extract structured information from FDA drug labels. Only use information present in the text."
+
 logger = logging.getLogger(__name__)
 
 
@@ -13,8 +16,6 @@ def get_client() -> OpenAI:
     """Create the OpenAI client on first use, not at import time."""
     return OpenAI()
 
-# 系统提示词：告诉模型它的角色，以及只能使用原文里的信息（减少编造）
-SYSTEM_PROMPT = "You extract structured information from FDA drug labels. Only use information present in the text."
 
 def extract_drug_label_info(
     label_text: str,
