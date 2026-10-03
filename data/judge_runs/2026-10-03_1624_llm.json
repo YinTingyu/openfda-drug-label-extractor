@@ -1,0 +1,428 @@
+{
+  "created_at": "2026-10-03T16:24:36",
+  "cases_file": "data/judge_cases.json",
+  "judge": "llm",
+  "model": "gpt-4o-mini",
+  "accuracy": 0.6571428571428571,
+  "confusion_matrix": {
+    "equivalent": {
+      "equivalent": 9,
+      "partial": 7,
+      "not_equivalent": 4
+    },
+    "partial": {
+      "equivalent": 0,
+      "partial": 5,
+      "not_equivalent": 0
+    },
+    "not_equivalent": {
+      "equivalent": 0,
+      "partial": 1,
+      "not_equivalent": 9
+    }
+  },
+  "per_label": {
+    "equivalent": {
+      "precision": 1.0,
+      "recall": 0.45,
+      "support": 20
+    },
+    "partial": {
+      "precision": 0.38461538461538464,
+      "recall": 1.0,
+      "support": 5
+    },
+    "not_equivalent": {
+      "precision": 0.6923076923076923,
+      "recall": 0.9,
+      "support": 10
+    }
+  },
+  "results": [
+    {
+      "id": "c01",
+      "field": "contraindications",
+      "a": "Do not use in the eyes",
+      "b": "Use in the eyes",
+      "tests": "field_context",
+      "gold": "equivalent",
+      "pred": "not_equivalent",
+      "reason": "The statements directly contradict each other.",
+      "correct": false
+    },
+    {
+      "id": "c02",
+      "field": "contraindications",
+      "a": "Not for subconjunctival injection",
+      "b": "Not for injection",
+      "tests": "scope",
+      "gold": "partial",
+      "pred": "partial",
+      "reason": "One statement specifies a type of injection while the other is broader.",
+      "correct": true
+    },
+    {
+      "id": "c03",
+      "field": "contraindications",
+      "a": "Do not use over large areas of the body",
+      "b": "over large areas of the body",
+      "tests": "fragment",
+      "gold": "equivalent",
+      "pred": "partial",
+      "reason": "Both items refer to the same restriction regarding application, but only one explicitly states the prohibition.",
+      "correct": false
+    },
+    {
+      "id": "c04",
+      "field": "contraindications",
+      "a": "Do not use in the eyes",
+      "b": "in the eyes",
+      "tests": "fragment",
+      "gold": "equivalent",
+      "pred": "partial",
+      "reason": "Both items refer to the same location, but only one explicitly states the prohibition.",
+      "correct": false
+    },
+    {
+      "id": "c05",
+      "field": "cautions",
+      "a": "If pregnant or nursing, seek professional advice",
+      "b": "If you are pregnant or nursing, seek advice from a professional",
+      "tests": "paraphrase",
+      "gold": "equivalent",
+      "pred": "equivalent",
+      "reason": "Both statements convey the same caution regarding seeking professional advice if pregnant or nursing.",
+      "correct": true
+    },
+    {
+      "id": "c06",
+      "field": "cautions",
+      "a": "If pregnant or nursing, seek professional advice before use",
+      "b": "If pregnant, or nursing a baby, seek professional advice before taking this product.",
+      "tests": "paraphrase",
+      "gold": "equivalent",
+      "pred": "partial",
+      "reason": "Both statements advise seeking professional advice if pregnant or nursing, but the second statement specifies 'nursing a baby' which adds detail.",
+      "correct": false
+    },
+    {
+      "id": "c07",
+      "field": "cautions",
+      "a": "Ask a doctor before use if you have deep or puncture wounds",
+      "b": "Deep or puncture wounds",
+      "tests": "boilerplate",
+      "gold": "equivalent",
+      "pred": "not_equivalent",
+      "reason": "Item a specifies a condition that requires consultation, while item b only states the condition itself without any action.",
+      "correct": false
+    },
+    {
+      "id": "c08",
+      "field": "indications",
+      "a": "minor cuts",
+      "b": "burns",
+      "tests": "different_item",
+      "gold": "not_equivalent",
+      "pred": "not_equivalent",
+      "reason": "The items refer to different types of injuries.",
+      "correct": true
+    },
+    {
+      "id": "c09",
+      "field": "general_warnings",
+      "a": "Keep this and all medication out of reach of children",
+      "b": "Keep this and all medication out of reach of children.",
+      "tests": "punctuation",
+      "gold": "equivalent",
+      "pred": "equivalent",
+      "reason": "Both statements are identical.",
+      "correct": true
+    },
+    {
+      "id": "c10",
+      "field": "stop_use_conditions",
+      "a": "If symptoms do not improve in 4 days, or worsen",
+      "b": "If symptoms do not improve in 4 days, or worsen, discontinue use and seek assistance",
+      "tests": "boilerplate",
+      "gold": "equivalent",
+      "pred": "partial",
+      "reason": "Both items indicate the same conditions for stopping use, but item b includes an additional instruction to seek assistance.",
+      "correct": false
+    },
+    {
+      "id": "c11",
+      "field": "indications",
+      "a": "First aid to help prevent infection in minor cuts",
+      "b": "minor cuts",
+      "tests": "boilerplate",
+      "gold": "equivalent",
+      "pred": "partial",
+      "reason": "b is a subset of a's indication.",
+      "correct": false
+    },
+    {
+      "id": "c12",
+      "field": "indications",
+      "a": "treatment of infections caused by susceptible strains of bacteria in bacterial conjunctivitis",
+      "b": "bacterial conjunctivitis",
+      "tests": "boilerplate",
+      "gold": "equivalent",
+      "pred": "partial",
+      "reason": "b is a subset of a, as it specifies a type of conjunctivitis without mentioning the treatment aspect.",
+      "correct": false
+    },
+    {
+      "id": "c13",
+      "field": "indications",
+      "a": "broad-spectrum SPF 46 protection",
+      "b": "broad-spectrum uva/uvb sun protection",
+      "tests": "paraphrase",
+      "gold": "equivalent",
+      "pred": "not_equivalent",
+      "reason": "Both items refer to sun protection but differ in the specific details of the protection offered.",
+      "correct": false
+    },
+    {
+      "id": "c14",
+      "field": "indications",
+      "a": "leaves the skin flawless and protected",
+      "b": "broad-spectrum uva/uvb sun protection",
+      "tests": "different_item",
+      "gold": "not_equivalent",
+      "pred": "not_equivalent",
+      "reason": "The two statements refer to different aspects of skin care; one focuses on skin appearance while the other addresses sun protection.",
+      "correct": true
+    },
+    {
+      "id": "c15",
+      "field": "indications",
+      "a": "itching",
+      "b": "symptoms of itching",
+      "tests": "paraphrase",
+      "gold": "equivalent",
+      "pred": "partial",
+      "reason": "Both items refer to the same sensation, but one is broader than the other.",
+      "correct": false
+    },
+    {
+      "id": "c16",
+      "field": "stop_use_conditions",
+      "a": "if symptoms persist/worsen",
+      "b": "If symptoms persist or worsen",
+      "tests": "punctuation",
+      "gold": "equivalent",
+      "pred": "equivalent",
+      "reason": "The two statements convey the same condition for stopping use, differing only in conjunction wording.",
+      "correct": true
+    },
+    {
+      "id": "c17",
+      "field": "stop_use_conditions",
+      "a": "Stop use and ask a doctor if the condition persists or gets worse",
+      "b": "Condition persists or gets worse",
+      "tests": "boilerplate",
+      "gold": "equivalent",
+      "pred": "not_equivalent",
+      "reason": "Both statements refer to the same condition but differ in their context and action.",
+      "correct": false
+    },
+    {
+      "id": "c18",
+      "field": "stop_use_conditions",
+      "a": "you need to use this product for more than 1 week",
+      "b": "use for more than 1 week",
+      "tests": "paraphrase",
+      "gold": "equivalent",
+      "pred": "equivalent",
+      "reason": "Both statements imply the same condition regarding the duration of use.",
+      "correct": true
+    },
+    {
+      "id": "c19",
+      "field": "contraindications",
+      "a": "If you are allergic to povidone-iodine or any other ingredients in this preparation",
+      "b": "Allergy to povidone-iodine or any other ingredient",
+      "tests": "paraphrase",
+      "gold": "equivalent",
+      "pred": "equivalent",
+      "reason": "Both statements address the same condition regarding allergies to povidone-iodine or other ingredients.",
+      "correct": true
+    },
+    {
+      "id": "c20",
+      "field": "contraindications",
+      "a": "history of hypersensitivity to ofloxacin",
+      "b": "History of hypersensitivity to ofloxacin, other quinolones, or any component of the product",
+      "tests": "granularity",
+      "gold": "partial",
+      "pred": "partial",
+      "reason": "Item b includes additional substances that item a does not mention.",
+      "correct": true
+    },
+    {
+      "id": "c21",
+      "field": "general_warnings",
+      "a": "For external use only",
+      "b": "external use only",
+      "tests": "punctuation",
+      "gold": "equivalent",
+      "pred": "equivalent",
+      "reason": "Both statements convey the same restriction regarding external use.",
+      "correct": true
+    },
+    {
+      "id": "c22",
+      "field": "general_warnings",
+      "a": "NOT FOR INJECTION",
+      "b": "Not for injection: do not inject subconjunctivally or into the anterior chamber of the eye",
+      "tests": "granularity",
+      "gold": "partial",
+      "pred": "partial",
+      "reason": "Both items indicate that the product should not be injected, but item b provides additional specific instructions about injection sites.",
+      "correct": true
+    },
+    {
+      "id": "c23",
+      "field": "stop_use_conditions",
+      "a": "serious acute hypersensitivity reactions may require immediate emergency treatment",
+      "b": "If an allergic reaction to ofloxacin occurs",
+      "tests": "different_item",
+      "gold": "not_equivalent",
+      "pred": "not_equivalent",
+      "reason": "The items refer to different aspects of allergic reactions; one specifies serious reactions requiring emergency treatment, while the other mentions an allergic reaction to a specific drug.",
+      "correct": true
+    },
+    {
+      "id": "c24",
+      "field": "adverse_reactions",
+      "a": "anaphylactic reaction/shock",
+      "b": "anaphylaxis",
+      "tests": "synonym",
+      "gold": "equivalent",
+      "pred": "equivalent",
+      "reason": "Anaphylactic reaction/shock and anaphylaxis refer to the same severe allergic reaction.",
+      "correct": true
+    },
+    {
+      "id": "c25",
+      "field": "adverse_reactions",
+      "a": "transient ocular burning or discomfort",
+      "b": "ocular burning",
+      "tests": "granularity",
+      "gold": "partial",
+      "pred": "partial",
+      "reason": "Both items refer to ocular burning, but 'transient' indicates a specific duration that is not mentioned in item b.",
+      "correct": true
+    },
+    {
+      "id": "c26",
+      "field": "stop_use_conditions",
+      "a": "If symptoms do not improve in 4 days",
+      "b": "If symptoms do not improve in 7 days",
+      "tests": "number",
+      "gold": "not_equivalent",
+      "pred": "not_equivalent",
+      "reason": "The time frame for improvement differs between the two statements.",
+      "correct": true
+    },
+    {
+      "id": "c27",
+      "field": "stop_use_conditions",
+      "a": "use for more than 1 week",
+      "b": "use for more than 7 days",
+      "tests": "number",
+      "gold": "equivalent",
+      "pred": "equivalent",
+      "reason": "Both statements refer to the same duration of use, just expressed differently.",
+      "correct": true
+    },
+    {
+      "id": "c28",
+      "field": "indications",
+      "a": "burns",
+      "b": "serious burns",
+      "tests": "severity",
+      "gold": "not_equivalent",
+      "pred": "partial",
+      "reason": "'serious burns' specifies a severity that 'burns' does not.",
+      "correct": false
+    },
+    {
+      "id": "c29",
+      "field": "indications",
+      "a": "bacterial conjunctivitis",
+      "b": "conjunctivitis",
+      "tests": "scope",
+      "gold": "partial",
+      "pred": "partial",
+      "reason": "b is a broader category that includes a.",
+      "correct": true
+    },
+    {
+      "id": "c30",
+      "field": "contraindications",
+      "a": "Allergy to povidone-iodine",
+      "b": "Allergy to iodine",
+      "tests": "scope",
+      "gold": "not_equivalent",
+      "pred": "not_equivalent",
+      "reason": "Povidone-iodine and iodine are different substances, leading to a difference in the contraindication.",
+      "correct": true
+    },
+    {
+      "id": "c31",
+      "field": "cautions",
+      "a": "Use during pregnancy only if the potential benefit justifies the risk",
+      "b": "Do not use during pregnancy",
+      "tests": "strength",
+      "gold": "not_equivalent",
+      "pred": "not_equivalent",
+      "reason": "The statements differ in their guidance regarding use during pregnancy.",
+      "correct": true
+    },
+    {
+      "id": "c32",
+      "field": "stop_use_conditions",
+      "a": "If symptoms worsen",
+      "b": "If symptoms improve",
+      "tests": "polarity",
+      "gold": "not_equivalent",
+      "pred": "not_equivalent",
+      "reason": "The conditions differ in direction; one states to stop if symptoms worsen, while the other states to stop if symptoms improve.",
+      "correct": true
+    },
+    {
+      "id": "c33",
+      "field": "adverse_reactions",
+      "a": "blurred vision",
+      "b": "vision loss",
+      "tests": "severity",
+      "gold": "not_equivalent",
+      "pred": "not_equivalent",
+      "reason": "The severity of the conditions differs, with blurred vision being less severe than vision loss.",
+      "correct": true
+    },
+    {
+      "id": "c34",
+      "field": "adverse_reactions",
+      "a": "itching",
+      "b": "pruritus",
+      "tests": "synonym",
+      "gold": "equivalent",
+      "pred": "equivalent",
+      "reason": "Itching and pruritus are synonymous terms for the same condition.",
+      "correct": true
+    },
+    {
+      "id": "c35",
+      "field": "cautions",
+      "a": "Deep or puncture wounds",
+      "b": "Animal bites",
+      "tests": "different_item",
+      "gold": "not_equivalent",
+      "pred": "not_equivalent",
+      "reason": "The items refer to different types of injuries.",
+      "correct": true
+    }
+  ]
+}

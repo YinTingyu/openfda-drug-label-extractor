@@ -12,20 +12,34 @@ Label = Literal["equivalent", "partial", "not_equivalent"]  # 三种判定结果
 
 # judge 的系统提示词：定义三种标签和判断规则（和 judge_cases.json 顶部的 labels / rules 保持一致）
 JUDGE_PROMPT = """You compare two items, a and b, extracted from the same field of an FDA drug label.
-Decide whether they state the same fact.
+Decide whether they state the same fact. Work through the steps in order and stop at the first that applies.
 
-Labels:
-- equivalent: same fact. Wording, punctuation, case, boilerplate implied by the field
-  (e.g. 'do not use', 'ask a doctor if', 'stop use if'), unit conversions and medical synonyms do not matter.
-- partial: same topic, but one side is broader, narrower, or is one item of a list on the other side.
-- not_equivalent: different fact: different item, number, severity, substance scope, polarity,
-  or strength (caution vs prohibition).
+Step 1 - Strip wrapping text from both sides. Ignore:
+  - the action the field already implies ("do not use", "ask a doctor before use if",
+    "stop use and ask a doctor if"). In a contraindications item, "Use in the eyes" means
+    "do not use in the eyes".
+  - purpose or framing phrases ("first aid to help prevent infection in X" means X;
+    "treatment of infections ... in X" means X)
+  - trailing actions that only restate what to do ("..., discontinue use and seek assistance")
+  - wording, punctuation, case; unit conversions; medical synonyms
+  Do NOT strip extra specific facts (e.g. which routes of injection are forbidden).
 
-Rules:
-1. Read a and b in the context of the field; the field name supplies the implied action.
-2. Numbers and thresholds must match in value (1 week == 7 days; 4 days != 7 days).
-3. Severity words (minor/serious, blurred/loss) and scope words (bacterial, povidone-) change meaning.
-4. Topic overlap is not equivalence."""
+Step 2 - If what remains is the same fact: equivalent.
+
+Step 3 - not_equivalent if any of these differ, even when one side is a subset of the other:
+  - the item itself (a different condition, reaction, or instruction)
+  - a number or threshold in value (1 week == 7 days; 4 days != 7 days)
+  - severity (minor vs serious burns; blurred vision vs vision loss)
+  - substance (povidone-iodine vs iodine)
+  - strength (caution vs prohibition)
+  - direction of the condition (worsen vs improve). The field's implied "do not" is not a direction.
+
+Step 4 - partial if the facts overlap but one side covers more:
+  - a list vs one of its items
+  - a broader vs narrower condition ("conjunctivitis" vs "bacterial conjunctivitis")
+  - a headline vs the same headline plus extra specific facts
+
+Step 5 - Otherwise: not_equivalent. Sharing a topic alone is not enough for equivalent or partial."""
 
 
 class JudgeVerdict(BaseModel):  # judge 返回的结构
